@@ -2,7 +2,7 @@ package game;
 
 public class State{
 
-	protected boolean player1; //le joueur1 -> true / joueur2 -> false
+	protected boolean player1; //le joueur1 -> true//blanc / joueur2//noir -> false
 	protected char[][] gameGrid;
 	public State(int tailleX, int tailleY){
 		initialState(tailleX, tailleY);
@@ -18,7 +18,6 @@ public class State{
 		//positionnement du pion noir en haut à gauche
 		this.gameGrid[0][0] = 'B';
 
-
 		//Affichage de la grille de jeu
 		renderGameGrid();
 	}
@@ -30,14 +29,13 @@ public class State{
 			for(int j = 0 ; j < gameGrid[i].length; j++){
 				this.gameGrid[i][j] = '.';
 			}
-			System.out.println();
 		}
 	}
 
 	public void renderGameGrid(){
 
-		for(int i = 0 ; i < this.gameGrid.length ; i++){
-			for(int j = 0 ; j < this.gameGrid[i].length; j++){
+		for(int j = 0 ; j < this.gameGrid[0].length; j++){
+			for(int i = 0 ; i < this.gameGrid.length ; i++){
 				System.out.print(this.gameGrid[i][j]);
 			}
 			System.out.println();
@@ -65,19 +63,34 @@ public class State{
 	}
 
 	public void nextPlayer(){
-		if(this.player1 == false){
-			this.player1 = true;
+		this.player1 = !this.player1;
+	}
+
+	public boolean isPlayer1(){
+		if(this.player1){
+			return true;
 		}else{
-			this.player1 = false;
+			return false;
 		}
 	}
 
-	public void currentPlayer(){
-		if(this.player1 == false){
-			System.out.println("c'est le tour du joueur 1");
-		}else{
-			System.out.println("c'est le tour du joueur 2");
+	public void setGridCell(int x, int y, char value){
+		if(x >= 0 && x <= this.getGridWidth() && y >= 0 &&  y <= this.getGridHeigth()) {
+			gameGrid[x][y] = value;
 		}
+	}
+
+	public char getGridCell(int x, int y) {
+		if(x >= 0 && x <= this.getGridWidth() && y >= 0 && y <= this.getGridHeigth()) {
+			 return this.gameGrid[x][y];
+		}
+		else{
+			return ' ';
+		}
+	}
+
+	public char[][] getGrid(){
+		return this.gameGrid;
 	}
 
 	public boolean isFinished(){
