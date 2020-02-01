@@ -33,23 +33,64 @@ public class State{
 	}
 
 	public void renderGameGrid(){
+		int renderNumberLeft = 0;
+		//affichage de la grille
+		char newTab[][] = new char[this.gameGrid.length +1][this.gameGrid.length +1];
 
-		for(int j = 0 ; j < this.gameGrid[0].length; j++){
-			for(int i = 0 ; i < this.gameGrid.length ; i++){
-				System.out.print(this.gameGrid[i][j]);
+		for(int y = 0 ; y < newTab[0].length ; y++){ //y
+			if(y == 0){
+				int renderNumberTop = -2;
+				while(renderNumberTop < this.gameGrid.length){
+					if(renderNumberTop == -2){
+						System.out.print(" ");
+						renderNumberTop+=1;
+					}else if(renderNumberTop > 10){
+						System.out.print("| "+ renderNumberTop);
+					}else{
+						System.out.print(" | "+ renderNumberTop);
+					}
+
+					renderNumberTop +=1;
+				}
+				System.out.println();
+				y++;
+			}
+			for(int x = 0 ; x < newTab.length ; x++){ //x
+				if(x == 0){
+					if(renderNumberLeft < 10 ){
+						System.out.print(renderNumberLeft + " ");
+					}else{
+						System.out.print(renderNumberLeft);
+					}
+
+					renderNumberLeft+=1;
+				}else{
+					System.out.print("| " + this.gameGrid[x-1][y-1] + " " );
+				}
+
 			}
 			System.out.println();
 		}
 	}
+		// for(int j = 0 ; j < this.gameGrid[0].length ; j++){ //y
+		// 	for(int i = 0 ; i < this.gameGrid.length ; i++){ //x
+		// 		System.out.print(this.gameGrid[i][j]);
+		// 	}
+		// 	System.out.println();
+		// }
 
+
+	//retourne la coordonnée max en x
 	public int getGridWidth(){
 		return gameGrid.length-1;
 	}
 
+	//retourne la coordonnée max en y
 	public int getGridHeigth(){
 		return this.gameGrid[0].length-1;
 	}
 
+	//retourne le nombre de pions d'un joueur
 	public int getNumberOfPawn(char colorPawn){
 		int count = 0;
 		for(int i = 0 ; i < this.gameGrid.length ; i++){
@@ -62,10 +103,12 @@ public class State{
 		return count;
 	}
 
+	//change le joueur actiuel pour passer au suivant
 	public void nextPlayer(){
 		this.player1 = !this.player1;
 	}
 
+	//retourne le joueur actuel (s'il s'agit du joueur 1 ou non)
 	public boolean isPlayer1(){
 		if(this.player1){
 			return true;
@@ -74,12 +117,30 @@ public class State{
 		}
 	}
 
+	public char playerPawn(){
+		if(this.player1){
+			return('W');
+		}else{
+			return('B');
+		}
+	}
+
+	public char ennemyPawn(){
+		if(this.player1){
+			return('B');
+		}else{
+			return('W');
+		}
+	}
+
+	//modifie la coordonnée de la grille
 	public void setGridCell(int x, int y, char value){
 		if(x >= 0 && x <= this.getGridWidth() && y >= 0 &&  y <= this.getGridHeigth()) {
 			gameGrid[x][y] = value;
 		}
 	}
 
+	//renvoie la coordonnée de la grille
 	public char getGridCell(int x, int y) {
 		if(x >= 0 && x <= this.getGridWidth() && y >= 0 && y <= this.getGridHeigth()) {
 			 return this.gameGrid[x][y];

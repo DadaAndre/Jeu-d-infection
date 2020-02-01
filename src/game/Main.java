@@ -26,6 +26,7 @@ public class Main{
 
 			if(choix.isMovePossible()){
 				state.nextPlayer();
+				//System.out.println("Beh on change de joueur");
 			}
 		}
 	}
